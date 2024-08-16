@@ -42,6 +42,11 @@ async function run() {
       const minPrice = parseInt(req.query.minPrice) || 0;
       const maxPrice = parseInt(req.query.maxPrice) || Infinity;
 
+      //pagination:
+      const size=req.query.size;
+      const page=req.query.page
+      console.log(size,page);
+
       //Search:
       let query = {
         productName: { $regex: searchString, $options: "i" },
