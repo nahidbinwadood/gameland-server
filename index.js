@@ -61,7 +61,7 @@ async function run() {
       // Filter:
       if (filter === "asc") {
         options.sort = { price: -1 };
-      } else if (filter === "dec") {
+      } else if (filter === "dsc") {
         options.sort = { price: 1 };
       } else if (filter === "new") {
         options.sort = { productCreationDateTime: -1 };
