@@ -72,7 +72,34 @@ async function run() {
    
 
     app.get("/products-count", async (req, res) => {
-      const count =await productsCollection.countDocuments();
+      const search = req.query.search;
+      const searchString = String(search);
+      const brand = req.query.brandName;
+      const category = req.query.category;
+      const filter = req.query.filter;
+      const minPrice = parseInt(req.query.minPrice) || 0;
+      const maxPrice = parseInt(req.query.maxPrice) || Infinity;
+
+     //Search:
+     let query = {
+       productName: { $regex: searchString, $options: "i" },
+       price: { $gte: minPrice, $lte: maxPrice }
+     };
+
+     //Brand and category:
+     if (brand) query.brand = brand;
+     if (category) query.category = category;
+     let options = {};
+
+     // Filter:
+     if (filter === "asc") {
+       options.sort = { price: -1 };
+     } else if (filter === "dsc") {
+       options.sort = { price: 1 };
+     } else if (filter === "new") {
+       options.sort = { productCreationDateTime: -1 };
+     }
+      const count =await productsCollection.countDocuments(query, options);
       res.send({count})
     })
 
