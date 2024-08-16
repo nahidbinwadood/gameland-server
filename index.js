@@ -43,8 +43,8 @@ async function run() {
       const maxPrice = parseInt(req.query.maxPrice) || Infinity;
 
       //pagination:
-      const size=req.query.size;
-      const page=req.query.page
+      const size=parseInt(req.query.size);
+      const page=parseInt(req.query.page)
       console.log(size,page);
 
       //Search:
@@ -66,7 +66,7 @@ async function run() {
       } else if (filter === "new") {
         options.sort = { productCreationDateTime: -1 };
       }
-      const result = await productsCollection.find(query, options).toArray();
+      const result = await productsCollection.find(query, options).skip(size*page).limit(page).toArray();
       res.send(result);
     });
    
