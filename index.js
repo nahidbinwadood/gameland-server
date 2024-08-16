@@ -44,8 +44,8 @@ async function run() {
 
       //pagination:
       const size=parseInt(req.query.size);
-      const page=parseInt(req.query.page)
-      console.log(size,page);
+      const page=parseInt(req.query.page)-1
+    
 
       //Search:
       let query = {
@@ -66,7 +66,7 @@ async function run() {
       } else if (filter === "new") {
         options.sort = { productCreationDateTime: -1 };
       }
-      const result = await productsCollection.find(query, options).skip(size*page).limit(page).toArray();
+      const result = await productsCollection.find(query, options).skip(size*page).limit(size).toArray();
       res.send(result);
     });
    
