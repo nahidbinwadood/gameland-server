@@ -64,7 +64,12 @@ async function run() {
       const result = await productsCollection.find(query, options).toArray();
       res.send(result);
     });
-    // Send a ping to confirm a successful connection
+   
+
+    app.get("/products-count", async (req, res) => {
+      const count =await productsCollection.countDocuments();
+      res.send({count})
+    })
 
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
